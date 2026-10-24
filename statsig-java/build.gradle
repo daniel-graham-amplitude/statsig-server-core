@@ -113,6 +113,7 @@ ext.createStatsigJar = { String nameParam, String classifierParam ->
             archiveClassifier.set("uber")
             from(sourceSets.main.output) {
                 include 'com/statsig/**'
+                include 'com/amplitude/**'
                 include 'statsigsdk.properties'
             }
 
@@ -182,6 +183,7 @@ ext.createStatsigJar = { String nameParam, String classifierParam ->
         if (nameParam == "java-core") {
             from(sourceSets.main.output) {
                 include 'com/statsig/**'
+                include 'com/amplitude/**'
                 include 'statsigsdk.properties'
             }
         }
@@ -330,4 +332,15 @@ checkstyle {
     toolVersion = "9.2"
     configFile = rootProject.file("config/checkstyle.xml")
     ignoreFailures = true // TODO we need change to false in the future
+}
+
+
+tasks.register('amplitudeHelloWorld', JavaExec) {
+    group = 'verification'
+    description = 'Send a Hello World event through the Amplitude Java bindings'
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.amplitude.AmplitudeHelloWorld'
+    environment 'AMPLITUDE_NATIVE_LIB', System.getenv('AMPLITUDE_NATIVE_LIB') ?:
+        file("../target/debug/${System.mapLibraryName('statsig_ffi')}").absolutePath
 }

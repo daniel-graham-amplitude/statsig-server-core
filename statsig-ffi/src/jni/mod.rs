@@ -1,3 +1,4 @@
+mod amplitude_jni;
 mod jni_utils;
 mod statsig_data_store_jni;
 mod statsig_jni;

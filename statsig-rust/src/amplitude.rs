@@ -2,7 +2,7 @@ use crate::networking::{
     providers::get_network_provider, HttpMethod, NetworkProvider, RequestArgs,
 };
 use chrono::Utc;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
 use std::{collections::HashMap, fmt, sync::Arc};
 use uuid::Uuid;
@@ -22,7 +22,7 @@ impl Default for AmplitudeOptions {
     }
 }
 
-#[derive(Clone, Debug, Default, Serialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct AmplitudeEvent {
     pub event_type: String,
     #[serde(skip_serializing_if = "Option::is_none")]
